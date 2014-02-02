@@ -20,7 +20,7 @@ class App:
         """
         Try and make sure the bluetooth connection is open and alive.
         """
-        num_tries = 4
+        num_tries = 6
         for i in range(num_tries):
             try:
                 self.socket.send("?")
@@ -29,9 +29,9 @@ class App:
             except Exception as e:
                 if i > 0:
                     time.sleep(1)
-                if i < num_tries - 1:
+                if (i > 3) and (i < num_tries - 1):
                     self._get_socket()
-                else:
+                elif i == num_tries - 1:
                     raise ConnectionError("Could not connect to bluetooth.")
 
     def _get_socket(self):
@@ -70,5 +70,6 @@ class App:
         return b==b'1'
 
     def __exit__(self, type, value, traceback):
+        print("Closing socket")
         self.socket.close()
 
