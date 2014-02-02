@@ -33,22 +33,6 @@ void USART_Init()
 }
 
 /**
- * Toggle the status and two output pins.
- */
-void toggle() {
-    status ^= 1U;
-    if (status) {
-        PORTB |= (1<<PIN_TRIGGER)|(1<<PIN_LED);
-    }
-    else {
-        PORTB &= ~((1<<PIN_TRIGGER)|(1<<PIN_LED));
-    }
-    // Prevent too fast switching
-    _delay_ms(1500);
-    USART_Flush();
-}
-
-/**
  * Send a byte.
  */
 void USART_Transmit( unsigned char data )
@@ -64,6 +48,22 @@ void USART_Flush( void )
 {
     unsigned char dummy;
     while ( UCSRA & (1<<RXC) ) dummy = UDR;
+}
+
+/**
+ * Toggle the status and two output pins.
+ */
+void toggle() {
+    status ^= 1U;
+    if (status) {
+        PORTB |= (1<<PIN_TRIGGER)|(1<<PIN_LED);
+    }
+    else {
+        PORTB &= ~((1<<PIN_TRIGGER)|(1<<PIN_LED));
+    }
+    // Prevent too fast switching
+    _delay_ms(1500);
+    USART_Flush();
 }
 
 /*
