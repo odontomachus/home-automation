@@ -28,8 +28,8 @@ void USART_Init()
      * 8 bit data (UCSZ2:0 = 0b011) 
      * 1 stop bit (USBS = 0) 
      * Async. op (UMSEL = 0) 
-     * Odd parity (UPM1:0 = 0b11)*/ 
-    UCSRC = (3<<UCSZ0)|(3<<UPM0);
+     * No parity (UPM1:0 = 0b00)*/ 
+    UCSRC = (3<<UCSZ0);
 }
 
 /**
