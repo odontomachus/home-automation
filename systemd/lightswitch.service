@@ -4,10 +4,10 @@ After=syslog.target
 
 [Service]
 Type=forking
-User=nobody
-PIDFile=/var/run/lightswitch.pid
+User=lightswitch
+PIDFile=/var/run/lightswitch/lightswitch.pid
 # Note the -f: don't fail if there is no PID file
-ExecStartPre=/bin/rm -f $PIDFile
+ExecStartPre=/bin/rm -f /var/run/lightswitch.pid
 ExecStart=/usr/local/bin/light_switch
 Restart=on-abort
 RestartSec=30
