@@ -21,4 +21,19 @@ def switch():
     a.toggle()
     redirect("/")
 
-run(host='0.0.0.0', port=8090)
+# Run in background
+if __name__=="__main__":
+    import os
+    import sys
+    pid = os.fork()
+    if (pid == 0):
+        os.chdir("/")
+        os.setsid()
+        os.umask(0)
+        pid2 = os.fork()
+        if (pid2 == 0):  # Second child
+            run(host='0.0.0.0', port=8090)
+        else:
+            sys.exit()    #First child exits for decoupling
+    else:
+        sys.exit()   # Parent exits

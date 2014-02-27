@@ -12,3 +12,6 @@ ExecStart=/usr/local/bin/light_switch
 Restart=on-abort
 RestartSec=30
 After=bluetooth.service
+
+[Install]
+Alias=default.target
