@@ -2,8 +2,6 @@
 from bottle import get, run, redirect
 import app
 
-a = app.App()
-
 @get('/')
 def index():
     global a
@@ -50,6 +48,8 @@ if __name__=="__main__":
 
             os.write(pidfd, "%s\n" % os.getpid())
             os.fsync(pidfd)
+            global a
+            a = app.App()
             run(host='0.0.0.0', port=8090)
         else:
             sys.exit()    #First child exits for decoupling
