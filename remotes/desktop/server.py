@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from bottle import get, run, redirect
 import app
 
