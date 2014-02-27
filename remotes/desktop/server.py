@@ -20,4 +20,4 @@ def switch():
     a.toggle()
     redirect("/")
 
-run(host='localhost', port=8090)
+run(host='0.0.0.0', port=8090)

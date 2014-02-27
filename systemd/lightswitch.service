@@ -1,0 +1,11 @@
+[Unit]
+Description=Light switch daemon
+After=syslog.target
+
+[Service]
+Type=forking
+PIDFile=/var/run/lightswitch.pid
+# Note the -f: don't fail if there is no PID file
+ExecStartPre=/bin/rm -f /var/run/lightswitch.pid
+ExecStart=/usr/local/bin/light_switch.py
+Restart=on-abort
