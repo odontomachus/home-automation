@@ -1,0 +1,15 @@
+myuser=`systemctl show -p User "${SERVICE_NAME}" |
+  sed 's/^User=//'`
+if [ x"$myuser" = x ]
+then
+    myuser=lightswitch
+fi
+
+mygroup=`systemctl show -p Group "${SERVICE_NAME}" |
+  sed 's/^Group=//'`
+if [ x"$mygroup" = x ]
+then
+    mygroup=lightswitch
+fi
+
+mkdir -p /var/run/lightswitch

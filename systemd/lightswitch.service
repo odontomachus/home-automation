@@ -1,17 +1,17 @@
 [Unit]
 Description=Light switch daemon
-After=syslog.target
+After=bluetooth.service
 
 [Service]
 Type=forking
 User=lightswitch
 PIDFile=/var/run/lightswitch/lightswitch.pid
 # Note the -f: don't fail if there is no PID file
-ExecStartPre=/bin/rm -f /var/run/lightswitch.pid
+ExecStartPre=/usr/local/bin/light_switch_prepare
 ExecStart=/usr/local/bin/light_switch
 Restart=on-abort
 RestartSec=30
 After=bluetooth.service
 
 [Install]
-Alias=default.target
+WantedBy=multi-user.target
