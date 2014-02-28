@@ -57,14 +57,15 @@ class App:
             pass
         time.sleep(1)
         # Give the socket a bit of time to come online. Bluetooth is fickle.
-        for i in range(10):
+        num_tries = 10
+        for i in range(num_tries):
             try:
                 self.socket.send("?")
                 time.sleep(.5)
                 self.socket.recv(1024)
                 break
             except Exception as e:
-                if i == 4:
+                if i == num_tries - 1:
                     raise
                 time.sleep(2)
 
