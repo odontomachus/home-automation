@@ -13,3 +13,4 @@ then
 fi
 
 mkdir -p /var/run/lightswitch
+chown $myuser:$mygroup /var/run/lightswitch
