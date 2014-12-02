@@ -46,7 +46,7 @@ if __name__=="__main__":
                 print('Could not create pidfile {pidfile}'.format(pidfile=pidfile), file=sys.stderr)
                 sys.exit(1)
 
-            os.write(pidfd, bytes("{pid}\n".format(pid=os.getpid())))
+            os.write(pidfd, bytes("{pid}\n".format(pid=os.getpid()), 'utf-8'))
             os.fsync(pidfd)
             global a
             a = app.App()
