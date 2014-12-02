@@ -40,13 +40,13 @@ if __name__=="__main__":
                                 os.O_TRUNC | # truncate it, if it exists
                                 os.O_WRONLY | # write-only
                                 os.O_EXCL, # exclusive access
-                                '0644') # file mode
+                                0o644) # file mode
 
             except Exception as e:
                 print('Could not create pidfile {pidfile}'.format(pidfile=pidfile), file=sys.stderr)
                 sys.exit(1)
 
-            os.write(pidfd, "%s\n" % os.getpid())
+            os.write(pidfd, bytes("{pid}\n".format(pid=os.getpid())))
             os.fsync(pidfd)
             global a
             a = app.App()
