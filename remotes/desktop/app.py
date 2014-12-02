@@ -2,14 +2,13 @@ import bluetooth
 import time
 import socket
 
-NAME="lls"
-ADDRESS="20:13:07:26:03:86"
-PORT = 1
 
 class ConnectionError(Exception):
     pass
 
 class App:
+    self.port = 1
+
     def __init__(self):
         self._get_socket()
 
@@ -52,7 +51,7 @@ class App:
         self.socket.settimeout(0.3)
         # This sometimes throws errors but still works
         try:
-            self.socket.connect((ADDRESS, PORT))
+            self.socket.connect((self.address, self.port))
         except:
             pass
         time.sleep(1)
@@ -69,6 +68,13 @@ class App:
                     raise
                 time.sleep(2)
 
+    def __exit__(self, type, value, traceback):
+        print("Closing socket")
+        self.socket.close()
+
+class LivingRoomSwitch(App):
+    self.address="20:13:07:26:03:86"
+
     def toggle(self):
         self.get_socket()
         self.socket.send("T")
@@ -79,7 +85,35 @@ class App:
         b = self.socket.recv(1024)
         return b==b'1'
 
-    def __exit__(self, type, value, traceback):
-        print("Closing socket")
-        self.socket.close()
+class BedRoomSwitch(App):
+    self.address="30:14:07:03:07:80"
 
+    def on(self):
+        self.get_socket()
+        self.socket.send("f")
+
+    def off(self):
+        self.get_socket()
+        self.socket.send("h")
+
+    def side(self, side, val):
+        try:
+            assert(side in ['l', 'r'])
+            val = int(val)
+            val = min(val, 255)
+            val = max(val, 0)
+        except:
+            return False
+        self.get_socket()
+        self.socket.send(side)
+        self.socket.send(val)
+
+    def status(self):
+        self.get_socket()
+        self.socket.send("q")
+        b = self.socket.recv(1024)
+        try:
+            res = (ord(b[0]), ord(b[1]))
+        except:
+            res = (0,0)
+        return res
